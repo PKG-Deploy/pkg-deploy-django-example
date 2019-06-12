@@ -1,0 +1,53 @@
+name: pkgdeploy-djangoapp
+format: rpm
+distribution: centos7
+architecture: 64-bit
+description: A simple django project to show how PKG Deploy works
+url: https://www.pkgdeploy.com
+license: GPLv3
+maintainer: PKG Deploy Devs <devs@pkgdeploy.com>
+
+build:
+  directory: /opt/pkgdeploy/djangoapp/
+  requires:
+    - epel-release
+    - centos-release-scl-rh
+    - https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    - postgresql11-devel
+    - postgresql11-server
+    - python36-devel
+    - python36-pip
+    - python36-psycopg2
+    - gcc
+  commands: |
+    python3.6 -m venv ./venv/
+    PATH="/usr/pgsql-11/bin:$PATH" ./venv/bin/pip install -r requirements.txt
+
+install:
+  user: pkgdeploy
+  group: pkgdeploy
+  requires:
+    - postgresql11-devel
+    - postgresql11-server
+    - python36-devel
+    - python36-psycopg2
+    - nginx
+  copy:
+    - source: ./
+      destination: /opt/pkgdeploy/djangoapp/
+      user: pkgdeploy
+      group: pkgdeploy
+      permissions: 755
+    - source: nginx.conf
+      destination: /etc/nginx/conf.d/djangoapp.conf
+    - source: djangoapp.service
+      destination: /etc/systemd/system/djangoapp.service
+
+after_install:
+  - file: ./.pkgdeploy/postgres_setup.sh
+  - file: ./.pkgdeploy/nginx_setup.sh
+  - file: ./.pkgdeploy/upgrade_commands.sh
+  - run: systemctl enable djangoapp
+
+after_upgrade:
+  - file: ./.pkgdeploy/upgrade_commands.sh

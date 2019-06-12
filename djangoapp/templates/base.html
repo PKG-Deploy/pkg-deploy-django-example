@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link href="{% static "img/favicon.ico" %}" rel="shortcut icon">
+    <title>Django Example | {% block title %}{% endblock title %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/style.css" %}" media="all">
+</head>
+<body>
+  <div id="wrapper">
+    <header>
+      <img id="logo" src="{% static "img/logo.png" %}" alt="PKG Deploy logo">
+      <h1>Django Example</h1>
+    </header>
+    <main>
+      <div id="content">
+        {% block content %}{% endblock content %}
+      </div>
+    </main>
+  </div>
+</body>
+</html>

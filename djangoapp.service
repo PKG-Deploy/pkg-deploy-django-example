@@ -1,0 +1,11 @@
+[Unit]
+Description=Basic django app to show off PKG Deploy
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/pkgdeploy/djangoapp
+ExecStart=/opt/pkgdeploy/djangoapp/venv/bin/uwsgi --ini /opt/pkgdeploy/djangoapp/uwsgi.ini
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

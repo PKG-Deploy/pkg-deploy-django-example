@@ -1,0 +1,24 @@
+body {
+    margin: 50px;
+    font: 11px sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+}
+
+#logo {
+    width: 150px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
